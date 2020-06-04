@@ -71,7 +71,7 @@ class Stack<E> extends Vector<E> {
 
     /**
      * Removes the object at the top of this stack and returns that
-     * object as the value of this function.
+     * object as the value of this function.取出最后一个元素并删除
      *
      * @return  The object at the top of this stack (the last item
      *          of the <tt>Vector</tt> object).
@@ -89,7 +89,7 @@ class Stack<E> extends Vector<E> {
 
     /**
      * Looks at the object at the top of this stack without removing it
-     * from the stack.
+     * from the stack. 取出最后一个元素并返回
      *
      * @return  the object at the top of this stack (the last item
      *          of the <tt>Vector</tt> object).

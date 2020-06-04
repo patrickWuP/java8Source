@@ -171,8 +171,8 @@ public interface Lock {
      *
      * <p>If the lock is not available then the current thread becomes
      * disabled for thread scheduling purposes and lies dormant until the
-     * lock has been acquired.
-     *
+     * lock has been acquired.如果锁不可用，那么出于线程调度的目的，当前线程将被禁用，并处于休眠状态，直到获得锁为止
+     * 
      * <p><b>Implementation Considerations</b>
      *
      * <p>A {@code Lock} implementation may be able to detect erroneous use
@@ -186,7 +186,7 @@ public interface Lock {
     /**
      * Acquires the lock unless the current thread is
      * {@linkplain Thread#interrupt interrupted}.
-     *
+     * 获取锁，除非当前线程被中断
      * <p>Acquires the lock if it is available and returns immediately.
      *
      * <p>If the lock is not available then the current thread becomes
@@ -197,7 +197,7 @@ public interface Lock {
      * <li>The lock is acquired by the current thread; or
      * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
      * current thread, and interruption of lock acquisition is supported.
-     * </ul>
+     * </ul> 其他线程中断当前线程，且当前线程支持锁获取中断
      *
      * <p>If the current thread:
      * <ul>
@@ -237,7 +237,7 @@ public interface Lock {
      * <p>Acquires the lock if it is available and returns immediately
      * with the value {@code true}.
      * If the lock is not available then this method will return
-     * immediately with the value {@code false}.
+     * immediately with the value {@code false}. 调用时锁可用则返回true，否则返回false，此方法避免死锁，轮询锁加定时锁
      *
      * <p>A typical usage idiom for this method would be:
      *  <pre> {@code
@@ -269,11 +269,11 @@ public interface Lock {
      * If the lock is not available then
      * the current thread becomes disabled for thread scheduling
      * purposes and lies dormant until one of three things happens:
-     * <ul>
-     * <li>The lock is acquired by the current thread; or
+     * <ul>如果锁不可用，那么当前线程就会出于线程调度的目的而被禁用，并处于休眠状态，直到以下三种情况之一发生:
+     * <li>The lock is acquired by the current thread; or锁由当前线程获取
      * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of lock acquisition is supported; or
-     * <li>The specified waiting time elapses
+     * current thread, and interruption of lock acquisition is supported; or其他线程中断当前线程，支持中断锁获取
+     * <li>The specified waiting time elapses指定的等待时间已经过了
      * </ul>
      *
      * <p>If the lock is acquired then the value {@code true} is returned.
@@ -321,7 +321,7 @@ public interface Lock {
     boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
 
     /**
-     * Releases the lock.
+     * Releases the lock. 释放lock
      *
      * <p><b>Implementation Considerations</b>
      *
@@ -339,10 +339,10 @@ public interface Lock {
      * {@code Lock} instance.
      *
      * <p>Before waiting on the condition the lock must be held by the
-     * current thread.
+     * current thread.在等待条件之前，锁必须由当前线程持有。
      * A call to {@link Condition#await()} will atomically release the lock
      * before waiting and re-acquire the lock before the wait returns.
-     *
+     * 调用await()会自动释放lock，在等待返回之前重新获取锁
      * <p><b>Implementation Considerations</b>
      *
      * <p>The exact operation of the {@link Condition} instance depends on

@@ -148,7 +148,7 @@ public class HashSet<E>
      * Constructs a new, empty linked hash set.  (This package private
      * constructor is only used by LinkedHashSet.) The backing
      * HashMap instance is a LinkedHashMap with the specified initial
-     * capacity and the specified load factor.
+     * capacity and the specified load factor.包私有的，仅为linked hash set构造方法使用
      *
      * @param      initialCapacity   the initial capacity of the hash map
      * @param      loadFactor        the load factor of the hash map
@@ -213,7 +213,7 @@ public class HashSet<E>
      *
      * @param e element to be added to this set
      * @return <tt>true</tt> if this set did not already contain the specified
-     * element
+     * element 
      */
     public boolean add(E e) {
         return map.put(e, PRESENT)==null;
@@ -268,7 +268,7 @@ public class HashSet<E>
      *             (int), and its load factor (float) are emitted, followed by
      *             the size of the set (the number of elements it contains)
      *             (int), followed by all of its elements (each an Object) in
-     *             no particular order.
+     *             no particular order.实现Serializable接口，重新writeObject和readObject，就能按照自定义方式序列化和反序列化
      */
     private void writeObject(java.io.ObjectOutputStream s)
         throws java.io.IOException {

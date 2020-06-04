@@ -278,7 +278,7 @@ public class LockSupport {
     /**
      * Disables the current thread for thread scheduling purposes unless the
      * permit is available.
-     *
+     * 为线程调度目的禁用当前线程，除非许可证可用。
      * <p>If the permit is available then it is consumed and the call
      * returns immediately; otherwise the current thread becomes disabled
      * for thread scheduling purposes and lies dormant until one of three
@@ -291,7 +291,7 @@ public class LockSupport {
      *
      * <li>Some other thread {@linkplain Thread#interrupt interrupts}
      * the current thread; or
-     *
+     * 其他一些线程{@linkplain thread #interrupt interrupts}当前线程
      * <li>The call spuriously (that is, for no reason) returns.
      * </ul>
      *

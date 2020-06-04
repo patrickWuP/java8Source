@@ -87,7 +87,7 @@ public class Vector<E>
     /**
      * The array buffer into which the components of the vector are
      * stored. The capacity of the vector is the length of this array buffer,
-     * and is at least large enough to contain all the vector's elements.
+     * and is at least large enough to contain alCollectionl the vector's elements.
      *
      * <p>Any array elements following the last element in the Vector are null.
      *

@@ -212,7 +212,7 @@ public class LinkedBlockingDeque<E>
     // Basic linking and unlinking operations, called only while holding lock
 
     /**
-     * Links node as first element, or returns false if full.
+     * Links node as first element, or returns false if full.设置为头节点
      */
     private boolean linkFirst(Node<E> node) {
         // assert lock.isHeldByCurrentThread();
@@ -231,7 +231,7 @@ public class LinkedBlockingDeque<E>
     }
 
     /**
-     * Links node as last element, or returns false if full.
+     * Links node as last element, or returns false if full. 节点加到末尾，full的时候返回false
      */
     private boolean linkLast(Node<E> node) {
         // assert lock.isHeldByCurrentThread();
@@ -250,7 +250,7 @@ public class LinkedBlockingDeque<E>
     }
 
     /**
-     * Removes and returns first element, or null if empty.
+     * Removes and returns first element, or null if empty.移除并返回第一个节点，为空则返回null
      */
     private E unlinkFirst() {
         // assert lock.isHeldByCurrentThread();
@@ -267,7 +267,7 @@ public class LinkedBlockingDeque<E>
         else
             n.prev = null;
         --count;
-        notFull.signal();
+        notFull.signal();//对不为满条件等待阻塞队列的头节点线程进行唤醒
         return item;
     }
 
@@ -289,8 +289,8 @@ public class LinkedBlockingDeque<E>
         else
             p.next = null;
         --count;
-        notFull.signal();
-        return item;
+        notFull.signal();//唤醒不为满条件等待阻塞队列中的头节点
+        return item;//返回移除节点中的元素
     }
 
     /**
@@ -376,7 +376,7 @@ public class LinkedBlockingDeque<E>
         lock.lock();
         try {
             while (!linkFirst(node))
-                notFull.await();
+                notFull.await();//轮询，失败则阻塞在不为满条件等待队列中
         } finally {
             lock.unlock();
         }
@@ -462,7 +462,7 @@ public class LinkedBlockingDeque<E>
         if (x == null) throw new NoSuchElementException();
         return x;
     }
-
+    //和takeFirst的区别是，不进行轮询处理
     public E pollFirst() {
         final ReentrantLock lock = this.lock;
         lock.lock();
@@ -646,7 +646,7 @@ public class LinkedBlockingDeque<E>
      * @throws InterruptedException {@inheritDoc}
      */
     public void put(E e) throws InterruptedException {
-        putLast(e);
+        putLast(e);//默认走putLast方法
     }
 
     /**
@@ -677,7 +677,7 @@ public class LinkedBlockingDeque<E>
     }
 
     public E take() throws InterruptedException {
-        return takeFirst();
+        return takeFirst();//默认取第一个节点
     }
 
     public E poll(long timeout, TimeUnit unit) throws InterruptedException {

@@ -964,7 +964,7 @@ class Thread implements Runnable {
     /**
      * Tests if some Thread has been interrupted.  The interrupted state
      * is reset or not based on the value of ClearInterrupted that is
-     * passed.
+     * passed. 中断状态是否重置取决于传递的ClearInterrupted的值，true进行重置，false不进行重置
      */
     private native boolean isInterrupted(boolean ClearInterrupted);
 
@@ -1742,15 +1742,15 @@ class Thread implements Runnable {
          * Thread state for a runnable thread.  A thread in the runnable
          * state is executing in the Java virtual machine but it may
          * be waiting for other resources from the operating system
-         * such as processor.
+         * such as processor.处于可运行状态的线程在Java虚拟机中执行，但它可能在等待来自操作系统(如处理器)的其他资源
          */
         RUNNABLE,
 
         /**
-         * Thread state for a thread blocked waiting for a monitor lock.
+         * Thread state for a thread blocked waiting for a monitor lock.等待监视器锁的阻塞线程的线程状态。
          * A thread in the blocked state is waiting for a monitor lock
-         * to enter a synchronized block/method or
-         * reenter a synchronized block/method after calling
+         * to enter a synchronized block/method or 线程在阻塞状态下等待观察锁进入同步方法
+         * reenter a synchronized block/method after calling 重新进入同步方法在调用Object.wait()
          * {@link Object#wait() Object.wait}.
          */
         BLOCKED,
@@ -1767,12 +1767,12 @@ class Thread implements Runnable {
          *
          * <p>A thread in the waiting state is waiting for another thread to
          * perform a particular action.
-         *
+         * 处于等待状态的线程正在等待另一个线程执行特定的操作;一个线程在一个对象上调用了<tt> object. wait()</tt>，正在等待另一个线程在该对象上调用<tt> object. notify()</tt>或<tt> object. notifyall ()</tt>。
          * For example, a thread that has called <tt>Object.wait()</tt>
          * on an object is waiting for another thread to call
          * <tt>Object.notify()</tt> or <tt>Object.notifyAll()</tt> on
          * that object. A thread that has called <tt>Thread.join()</tt>
-         * is waiting for a specified thread to terminate.
+         * is waiting for a specified thread to terminate.调用<tt> thread .join()</tt>的线程正在等待指定的线程终止
          */
         WAITING,
 
@@ -1780,7 +1780,7 @@ class Thread implements Runnable {
          * Thread state for a waiting thread with a specified waiting time.
          * A thread is in the timed waiting state due to calling one of
          * the following methods with a specified positive waiting time:
-         * <ul>
+         * <ul>处于等待状态的线程有特定的等待时间
          *   <li>{@link #sleep Thread.sleep}</li>
          *   <li>{@link Object#wait(long) Object.wait} with timeout</li>
          *   <li>{@link #join(long) Thread.join} with timeout</li>

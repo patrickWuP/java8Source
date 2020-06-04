@@ -831,32 +831,32 @@ public class ArrayList<E> extends AbstractList<E>
      * @return an iterator over the elements in this list in proper sequence
      */
     public Iterator<E> iterator() {
-        return new Itr();
+        return new Itr();//返回一个新的迭代器
     }
 
     /**
-     * An optimized version of AbstractList.Itr
+     * An optimized version of AbstractList.Itr 从0遍历至数组末尾
      */
     private class Itr implements Iterator<E> {
-        int cursor;       // index of next element to return
-        int lastRet = -1; // index of last element returned; -1 if no such
-        int expectedModCount = modCount;
+        int cursor;       // index of next element to return 初始值为0,指向下一个元素
+        int lastRet = -1; // index of last element returned; -1 if no such 指向上一个返回的元素
+        int expectedModCount = modCount;//保存数组已修改的次数
 
         public boolean hasNext() {
             return cursor != size;
-        }
+        }//光标不等于数组的size
 
         @SuppressWarnings("unchecked")
         public E next() {
-            checkForComodification();
+            checkForComodification();//检查expectedModCount != modCount为true则抛出异常
             int i = cursor;
             if (i >= size)
                 throw new NoSuchElementException();
-            Object[] elementData = ArrayList.this.elementData;
+            Object[] elementData = ArrayList.this.elementData;//获取当前List的数组
             if (i >= elementData.length)
-                throw new ConcurrentModificationException();
-            cursor = i + 1;
-            return (E) elementData[lastRet = i];
+                throw new ConcurrentModificationException();//光标 >= 数组长度，说明数组元素已被并发删除
+            cursor = i + 1;//当前光标+1
+            return (E) elementData[lastRet = i];//返回+1前的值，并将lastRet赋值i
         }
 
         public void remove() {
@@ -865,10 +865,10 @@ public class ArrayList<E> extends AbstractList<E>
             checkForComodification();
 
             try {
-                ArrayList.this.remove(lastRet);
-                cursor = lastRet;
-                lastRet = -1;
-                expectedModCount = modCount;
+                ArrayList.this.remove(lastRet);//调用ArrayList本省的remove方法，modCount+1
+                cursor = lastRet;//光标指向当前位置，由于只是删除，不往前+1
+                lastRet = -1;//上一个元素已删除返回-1
+                expectedModCount = modCount;//重新更新了次数，因此使用iterator的remove不会抛出异常
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
@@ -878,17 +878,17 @@ public class ArrayList<E> extends AbstractList<E>
         @SuppressWarnings("unchecked")
         public void forEachRemaining(Consumer<? super E> consumer) {
             Objects.requireNonNull(consumer);
-            final int size = ArrayList.this.size;
+            final int size = ArrayList.this.size;//返回当前数组长度
             int i = cursor;
-            if (i >= size) {
+            if (i >= size) {//光标>=size结束操作
                 return;
             }
             final Object[] elementData = ArrayList.this.elementData;
-            if (i >= elementData.length) {
+            if (i >= elementData.length) {//光标 >= 数组长度，说明操作时有操作并发删除了数组元素，抛出异常
                 throw new ConcurrentModificationException();
             }
-            while (i != size && modCount == expectedModCount) {
-                consumer.accept((E) elementData[i++]);
+            while (i != size && modCount == expectedModCount) {//无人修改数组且光标位置还未到头
+                consumer.accept((E) elementData[i++]);//consumer方法调用相关元素进行操作
             }
             // update once at end of iteration to reduce heap write traffic
             cursor = i;
@@ -903,12 +903,12 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     * An optimized version of AbstractList.ListItr
+     * An optimized version of AbstractList.ListItr 对Itr进行扩展的类ListItr
      */
     private class ListItr extends Itr implements ListIterator<E> {
         ListItr(int index) {
             super();
-            cursor = index;
+            cursor = index;//可以设置遍历开始的索引
         }
 
         public boolean hasPrevious() {

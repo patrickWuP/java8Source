@@ -1519,7 +1519,7 @@ public final class Class<T> implements java.io.Serializable,
      * Returns an array containing {@code Field} objects reflecting all
      * the accessible public fields of the class or interface represented by
      * this {@code Class} object.
-     *
+     * 返回public Field的集合
      * <p> If this {@code Class} object represents a class or interface with no
      * no accessible public fields, then this method returns an array of length
      * 0.
@@ -1622,7 +1622,7 @@ public final class Class<T> implements java.io.Serializable,
      * {@code Class} object.  An array of length 0 is returned if the
      * class has no public constructors, or if the class is an array class, or
      * if the class reflects a primitive type or void.
-     *
+     * 返回所有的public类型的构造函数
      * Note that while this method returns an array of {@code
      * Constructor<T>} objects (that is an array of constructors from
      * this class), the return type of this method is {@code
@@ -1873,7 +1873,7 @@ public final class Class<T> implements java.io.Serializable,
      * declared by the class or interface represented by this
      * {@code Class} object. This includes public, protected, default
      * (package) access, and private fields, but excludes inherited fields.
-     *
+     * 返回该类对象所有Filed内容，但是不包括继承的field
      * <p> If this {@code Class} object represents a class or interface with no
      * declared fields, then this method returns an array of length 0.
      *
@@ -1986,7 +1986,7 @@ public final class Class<T> implements java.io.Serializable,
      * This method returns an array of length 0 if this {@code Class}
      * object represents an interface, a primitive type, an array class, or
      * void.
-     *
+     * 返回public, protected, default access，and private constructors类型的构造函数
      * <p> See <em>The Java Language Specification</em>, section 8.2.
      *
      * @return  the array of {@code Constructor} objects representing all the

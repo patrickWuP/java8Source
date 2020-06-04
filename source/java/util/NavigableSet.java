@@ -87,7 +87,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
     /**
      * Returns the greatest element in this set strictly less than the
      * given element, or {@code null} if there is no such element.
-     *
+     * 返回小于该元素的最大元素
      * @param e the value to match
      * @return the greatest element less than {@code e},
      *         or {@code null} if there is no such element
@@ -101,7 +101,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
     /**
      * Returns the greatest element in this set less than or equal to
      * the given element, or {@code null} if there is no such element.
-     *
+     * 返回该集合中小于或等于给定元素的最大元素
      * @param e the value to match
      * @return the greatest element less than or equal to {@code e},
      *         or {@code null} if there is no such element
@@ -115,7 +115,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
     /**
      * Returns the least element in this set greater than or equal to
      * the given element, or {@code null} if there is no such element.
-     *
+     * 返回该集合中大于或等于给定元素的最小元素
      * @param e the value to match
      * @return the least element greater than or equal to {@code e},
      *         or {@code null} if there is no such element
@@ -129,7 +129,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
     /**
      * Returns the least element in this set strictly greater than the
      * given element, or {@code null} if there is no such element.
-     *
+     * 返回该集合中严格大于给定元素的最小元素
      * @param e the value to match
      * @return the least element greater than {@code e},
      *         or {@code null} if there is no such element

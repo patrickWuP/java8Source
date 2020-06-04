@@ -259,7 +259,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Removes and returns the first element from this list.
+     * Removes and returns the first element from this list.删除第一个节点，没有则抛出异常
      *
      * @return the first element from this list
      * @throws NoSuchElementException if this list is empty
@@ -272,7 +272,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Removes and returns the last element from this list.
+     * Removes and returns the last element from this list.删除最后一个节点
      *
      * @return the last element from this list
      * @throws NoSuchElementException if this list is empty
@@ -285,7 +285,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Inserts the specified element at the beginning of this list.
+     * Inserts the specified element at the beginning of this list.数组头插入第一个元素
      *
      * @param e the element to add
      */
@@ -294,7 +294,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Appends the specified element to the end of this list.
+     * Appends the specified element to the end of this list.数组末端插入元素
      *
      * <p>This method is equivalent to {@link #add}.
      *
@@ -564,7 +564,7 @@ public class LinkedList<E>
      * Returns the (non-null) Node at the specified element index.
      */
     Node<E> node(int index) {
-        // assert isElementIndex(index);
+        // assert isElementIndex(index);和中间的索引进行比较，从而选择是从头结点还是尾节点开始遍历查找
 
         if (index < (size >> 1)) {
             Node<E> x = first;
@@ -642,7 +642,7 @@ public class LinkedList<E>
     // Queue operations.
 
     /**
-     * Retrieves, but does not remove, the head (first element) of this list.
+     * Retrieves, but does not remove, the head (first element) of this list.取出第一个元素
      *
      * @return the head of this list, or {@code null} if this list is empty
      * @since 1.5
@@ -653,7 +653,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Retrieves, but does not remove, the head (first element) of this list.
+     * Retrieves, but does not remove, the head (first element) of this list.取出一个元素，没有则抛出异常
      *
      * @return the head of this list
      * @throws NoSuchElementException if this list is empty
@@ -664,7 +664,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Retrieves and removes the head (first element) of this list.
+     * Retrieves and removes the head (first element) of this list.取出并删除第一个元素
      *
      * @return the head of this list, or {@code null} if this list is empty
      * @since 1.5
@@ -686,7 +686,7 @@ public class LinkedList<E>
     }
 
     /**
-     * Adds the specified element as the tail (last element) of this list.
+     * Adds the specified element as the tail (last element) of this list.将元素插入至队尾
      *
      * @param e the element to add
      * @return {@code true} (as specified by {@link Queue#offer})
@@ -698,7 +698,7 @@ public class LinkedList<E>
 
     // Deque operations
     /**
-     * Inserts the specified element at the front of this list.
+     * Inserts the specified element at the front of this list.插入元素至队头
      *
      * @param e the element to insert
      * @return {@code true} (as specified by {@link Deque#offerFirst})

@@ -7,6 +7,7 @@ public class TestHashMap {
 
     public static void main(String[] args) {
         Map a = new HashMap(1,1);
+        a.put(null,null);
         a.put("ass","sfdes");
         //以下key在tab的同一个索引处，通过node节点进行连接
 //        a.put("a",2);

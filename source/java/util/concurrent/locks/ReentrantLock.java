@@ -41,13 +41,13 @@ import java.util.Collection;
  * A reentrant mutual exclusion {@link Lock} with the same basic
  * behavior and semantics as the implicit monitor lock accessed using
  * {@code synchronized} methods and statements, but with extended
- * capabilities.
+ * capabilities. 可重入互斥{@link Lock}具有与使用{@code synchronized}方法和语句访问的隐式监视锁相同的基本行为和语义，但具有扩展功能。
  *
- * <p>A {@code ReentrantLock} is <em>owned</em> by the thread last
+ * <p>A {@code ReentrantLock} is <em>owned</em> by the thread last ReentrantLock属于上一个成功上锁，还没解锁的线程
  * successfully locking, but not yet unlocking it. A thread invoking
- * {@code lock} will return, successfully acquiring the lock, when
- * the lock is not owned by another thread. The method will return
- * immediately if the current thread already owns the lock. This can
+ * {@code lock} will return, successfully acquiring the lock, when当锁不属于另一个线程时，调用{@code lock}的线程将返回并成功获取锁
+ * the lock is not owned by another thread. The method will return 如果当前线程已经拥有锁，该方法将立即返回
+ * immediately if the current thread already owns the lock. This can  可通过以下方法进行判断
  * be checked using methods {@link #isHeldByCurrentThread}, and {@link
  * #getHoldCount}.
  *
@@ -56,17 +56,17 @@ import java.util.Collection;
  * contention, locks favor granting access to the longest-waiting
  * thread.  Otherwise this lock does not guarantee any particular
  * access order.  Programs using fair locks accessed by many threads
- * may display lower overall throughput (i.e., are slower; often much
+ * may display lower overall throughput (i.e., are slower; often much 
  * slower) than those using the default setting, but have smaller
  * variances in times to obtain locks and guarantee lack of
  * starvation. Note however, that fairness of locks does not guarantee
  * fairness of thread scheduling. Thus, one of many threads using a
  * fair lock may obtain it multiple times in succession while other
  * active threads are not progressing and not currently holding the
- * lock.
+ * lock.使用被多个线程访问的公平锁的程序可能会显示较低的总体吞吐量(例如，更慢;通常比那些使用默认设置的要慢得多)，但是在获得锁和保证不会饿死方面的时间差异更小。
  * Also note that the untimed {@link #tryLock()} method does not
  * honor the fairness setting. It will succeed if the lock
- * is available even if other threads are waiting.
+ * is available even if other threads are waiting.还要注意，不定时的{@link #tryLock()}方法不支持公平性设置。如果锁可用，即使其他线程正在等待，它也会成功
  *
  * <p>It is recommended practice to <em>always</em> immediately
  * follow a call to {@code lock} with a {@code try} block, most
@@ -98,7 +98,7 @@ import java.util.Collection;
  *
  * <p>This lock supports a maximum of 2147483647 recursive locks by
  * the same thread. Attempts to exceed this limit result in
- * {@link Error} throws from locking methods.
+ * {@link Error} throws from locking methods.//Integer.MAX_VALUE
  *
  * @since 1.5
  * @author Doug Lea
@@ -127,41 +127,41 @@ public class ReentrantLock implements Lock, java.io.Serializable {
          * subclasses, but both need nonfair try for trylock method.
          */
         final boolean nonfairTryAcquire(int acquires) {
-            final Thread current = Thread.currentThread();
-            int c = getState();
-            if (c == 0) {
-                if (compareAndSetState(0, acquires)) {
-                    setExclusiveOwnerThread(current);
+            final Thread current = Thread.currentThread();//获取当前线程
+            int c = getState();//获取AQS的状态
+            if (c == 0) {//state==0说明没人占用锁
+                if (compareAndSetState(0, acquires)) {//CAS设置AQS状态state的值为acquires
+                    setExclusiveOwnerThread(current);//当前线程为独享线程
                     return true;
                 }
             }
-            else if (current == getExclusiveOwnerThread()) {
-                int nextc = c + acquires;
+            else if (current == getExclusiveOwnerThread()) {//如果当前线程已经获取到了锁
+                int nextc = c + acquires;//state值+1，表示当前线程重入锁的次数
                 if (nextc < 0) // overflow
                     throw new Error("Maximum lock count exceeded");
-                setState(nextc);
+                setState(nextc);//当前线程的AQS值，只有一个线程操作，不会产生并发，可以直接赋值
                 return true;
             }
             return false;
         }
 
         protected final boolean tryRelease(int releases) {
-            int c = getState() - releases;
-            if (Thread.currentThread() != getExclusiveOwnerThread())
+            int c = getState() - releases;//AQS的state-1
+            if (Thread.currentThread() != getExclusiveOwnerThread())//当前线程不为拥有该锁的线程抛出异常
                 throw new IllegalMonitorStateException();
             boolean free = false;
-            if (c == 0) {
+            if (c == 0) {//说明当前线程的锁全部释放完毕
                 free = true;
                 setExclusiveOwnerThread(null);
             }
             setState(c);
-            return free;
+            return free;//true表示锁全部释放完毕
         }
 
         protected final boolean isHeldExclusively() {
             // While we must in general read state before owner,
             // we don't need to do so to check if current thread is owner
-            return getExclusiveOwnerThread() == Thread.currentThread();
+            return getExclusiveOwnerThread() == Thread.currentThread();//是不是当前lock锁的拥有线程
         }
 
         final ConditionObject newCondition() {
@@ -203,7 +203,7 @@ public class ReentrantLock implements Lock, java.io.Serializable {
          * acquire on failure.
          */
         final void lock() {
-            if (compareAndSetState(0, 1))
+            if (compareAndSetState(0, 1))//线程获取当前锁，AQS的state必须得为0，并设置为当前线程独有，当前线程可重入该锁
                 setExclusiveOwnerThread(Thread.currentThread());
             else
                 acquire(1);
@@ -571,7 +571,7 @@ public class ReentrantLock implements Lock, java.io.Serializable {
      *   }
      * }}</pre>
      *
-     * @return {@code true} if current thread holds this lock and
+     * @return {@code true} if current thread holds this lock and  判断当前线程是否拥有该锁
      *         {@code false} otherwise
      */
     public boolean isHeldByCurrentThread() {

@@ -1385,7 +1385,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     public AbstractStringBuilder reverse() {
         boolean hasSurrogates = false;
         int n = count - 1;
-        for (int j = (n-1) >> 1; j >= 0; j--) {
+        for (int j = (n-1) >> 1; j >= 0; j--) {//这种写法每次能处理两个值，减少for循环次数为log2n
             int k = n - j;
             char cj = value[j];
             char ck = value[k];

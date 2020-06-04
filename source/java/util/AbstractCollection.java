@@ -133,14 +133,14 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      */
     public Object[] toArray() {
         // Estimate size of array; be prepared to see more or fewer elements
-        Object[] r = new Object[size()];
-        Iterator<E> it = iterator();
-        for (int i = 0; i < r.length; i++) {
+        Object[] r = new Object[size()];//创建和当前集合相同大小的对象数组
+        Iterator<E> it = iterator();//获取当前迭代器
+        for (int i = 0; i < r.length; i++) {//根据数组长度进行遍历
             if (! it.hasNext()) // fewer elements than expected
-                return Arrays.copyOf(r, i);
-            r[i] = it.next();
+                return Arrays.copyOf(r, i);//如果遍历途中，迭代器元素已经完成（说明遍历的时候有元素被删除了），返回复制的集合,r原数组，复制的元素长度，数组长度已变小，所以需要重新生成数组
+            r[i] = it.next();//hasNext为true,填充r数组
         }
-        return it.hasNext() ? finishToArray(r, it) : r;
+        return it.hasNext() ? finishToArray(r, it) : r;//如果长度走完，但迭代器中还有元素就走finishToArray(说明遍历时有元素添加了)，否则正常返回r
     }
 
     /**
@@ -173,30 +173,30 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         // Estimate size of array; be prepared to see more or fewer elements
-        int size = size();
+        int size = size();//获取当前集合的容量
         T[] r = a.length >= size ? a :
                   (T[])java.lang.reflect.Array
-                  .newInstance(a.getClass().getComponentType(), size);
-        Iterator<E> it = iterator();
+                  .newInstance(a.getClass().getComponentType(), size);//a数组的容量>=当前数组的容量则返回a，否则新创建一个根据当前数组容量，a数组类型的新数组
+        Iterator<E> it = iterator();//获取当前集合的迭代器
 
-        for (int i = 0; i < r.length; i++) {
-            if (! it.hasNext()) { // fewer elements than expected
-                if (a == r) {
-                    r[i] = null; // null-terminate
-                } else if (a.length < i) {
+        for (int i = 0; i < r.length; i++) {//遍历新创建的r数组
+            if (! it.hasNext()) { // fewer elements than expected 遍历过程中元素消耗完毕
+                if (a == r) {//如果a和r是同一个数组
+                    r[i] = null; // null-terminate r[i]设置一个null值
+                } else if (a.length < i) {//如果 i> a的容量,则裁剪并返回
                     return Arrays.copyOf(r, i);
                 } else {
-                    System.arraycopy(r, 0, a, 0, i);
-                    if (a.length > i) {
+                    System.arraycopy(r, 0, a, 0, i);//裁剪并返回
+                    if (a.length > i) {//如果a的容量大于i则a[i] 为 null
                         a[i] = null;
                     }
                 }
                 return a;
             }
-            r[i] = (T)it.next();
+            r[i] = (T)it.next();//迭代器中的值传递到r数组中
         }
         // more elements than expected
-        return it.hasNext() ? finishToArray(r, it) : r;
+        return it.hasNext() ? finishToArray(r, it) : r; //如果遍历完，迭代器还有元素则走finishToArray否则返回r
     }
 
     /**
@@ -219,20 +219,20 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      */
     @SuppressWarnings("unchecked")
     private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
-        int i = r.length;
-        while (it.hasNext()) {
-            int cap = r.length;
-            if (i == cap) {
-                int newCap = cap + (cap >> 1) + 1;
+        int i = r.length;//获取当前r数组的长度
+        while (it.hasNext()) {//迭代器还有下一个元素
+            int cap = r.length;//cap为当前数组的长度
+            if (i == cap) { //如果i 和 cap长度相同，初始时会走该方法，后期迭代过程中，扩容的容量消耗完毕且i==cap会继续走该方法
+                int newCap = cap + (cap >> 1) + 1;//newCap 为 cap + cap/2 + 1;扩大的容量为原数组原容量的一半 + 1
                 // overflow-conscious code
-                if (newCap - MAX_ARRAY_SIZE > 0)
-                    newCap = hugeCapacity(cap + 1);
-                r = Arrays.copyOf(r, newCap);
+                if (newCap - MAX_ARRAY_SIZE > 0)//如果newCap大于最大的数组长度 Integer.MAX_VALUE - 8
+                    newCap = hugeCapacity(cap + 1);//newCap最大为Integer.MAX_VALUE 否则为 MAX_ARRAY_SIZE
+                r = Arrays.copyOf(r, newCap);//将r数组复制到长度为newCap的数组中，并返回
             }
-            r[i++] = (T)it.next();
+            r[i++] = (T)it.next();//r数组扩容后，当前元素i++赋值it.next()
         }
-        // trim if overallocated
-        return (i == r.length) ? r : Arrays.copyOf(r, i);
+        // trim if overallocated 如果数组长度分配过多，则进行裁剪,去除多余分配的数组空间
+        return (i == r.length) ? r : Arrays.copyOf(r, i);//返回r或者进行裁剪后再返回
     }
 
     private static int hugeCapacity(int minCapacity) {

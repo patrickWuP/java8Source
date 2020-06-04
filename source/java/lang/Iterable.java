@@ -51,22 +51,22 @@ public interface Iterable<T> {
     Iterator<T> iterator();
 
     /**
-     * Performs the given action for each element of the {@code Iterable}
+     * performs the given action for each element of the {@code iterable}
      * until all elements have been processed or the action throws an
-     * exception.  Unless otherwise specified by the implementing class,
+     * exception.  unless otherwise specified by the implementing class,
      * actions are performed in the order of iteration (if an iteration order
-     * is specified).  Exceptions thrown by the action are relayed to the
+     * is specified).  exceptions thrown by the action are relayed to the
      * caller.
      *
-     * @implSpec
-     * <p>The default implementation behaves as if:
+     * @implspec
+     * <p>the default implementation behaves as if:
      * <pre>{@code
-     *     for (T t : this)
+     *     for (t t : this)
      *         action.accept(t);
      * }</pre>
      *
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified action is null
+     * @param action the action to be performed for each element
+     * @throws nullpointerexception if the specified action is null
      * @since 1.8
      */
     default void forEach(Consumer<? super T> action) {

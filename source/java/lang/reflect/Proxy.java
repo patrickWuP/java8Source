@@ -634,13 +634,13 @@ public class Proxy implements java.io.Serializable {
             String proxyName = proxyPkg + proxyClassNamePrefix + num;
 
             /*
-             * Generate the specified proxy class.
+             * Generate the specified proxy class. //生成代理类的byte[]数据
              */
             byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
                 proxyName, interfaces, accessFlags);
             try {
                 return defineClass0(loader, proxyName,
-                                    proxyClassFile, 0, proxyClassFile.length);
+                                    proxyClassFile, 0, proxyClassFile.length);//将生成的代理类byte[]数据初始化到jvm中
             } catch (ClassFormatError e) {
                 /*
                  * A ClassFormatError here means that (barring bugs in the

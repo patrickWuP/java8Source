@@ -2249,7 +2249,7 @@ public class TreeMap<K,V>
         }
     }
 
-    /** From CLR */
+    /** From CLR */ //插入后Tree数修正
     private void fixAfterInsertion(Entry<K,V> x) {
         x.color = RED;
 

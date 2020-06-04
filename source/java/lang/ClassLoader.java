@@ -1475,7 +1475,7 @@ public abstract class ClassLoader {
     }
 
     // Returns true if the specified class loader can be found in this class
-    // loader's delegation chain.
+    // loader's delegation chain.当前类的所有父类加载器包含c1的当前类加载器则返回true
     boolean isAncestor(ClassLoader cl) {
         ClassLoader acl = this;
         do {
@@ -1496,10 +1496,10 @@ public abstract class ClassLoader {
                                                            ClassLoader to)
     {
         if (from == to)
-            return false;
+            return false;//类加载器相等，返回false，不需要进行类加载器权限检查
 
         if (from == null)
-            return false;
+            return false;//
 
         return !to.isAncestor(from);
     }
